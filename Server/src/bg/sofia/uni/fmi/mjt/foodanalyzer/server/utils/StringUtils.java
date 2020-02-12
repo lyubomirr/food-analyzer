@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.foodanalyzer.server.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class StringUtils {
     }
 
     public static boolean doesStringContainsAllTokens(String value, List<String> tokens) {
-        return tokens.stream().allMatch(value.toLowerCase()::contains);
+        var stringTokens = Arrays.asList(value.toLowerCase().split(Constants.WHITESPACE_SPLIT_REGEX));
+        return tokens.stream().allMatch(stringTokens::contains);
     }
 }

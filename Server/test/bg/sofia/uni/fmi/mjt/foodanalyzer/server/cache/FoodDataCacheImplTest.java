@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class FoodDataCacheImplTest {
-    private FoodDataCache cache;
     private CacheFilesHandler handlerMock;
     private Gson gson;
 
@@ -24,7 +23,6 @@ public class FoodDataCacheImplTest {
     public void setUp() {
         gson = new Gson();
         handlerMock = mock(CacheFilesHandler.class);
-        cache = new FoodDataCacheImpl(handlerMock, gson);
     }
 
     @Test
@@ -37,8 +35,11 @@ public class FoodDataCacheImplTest {
         final var serialized = gson.toJson(foods);
         when(handlerMock.readFoodsFileContent()).thenReturn(serialized);
 
+        var cache = new FoodDataCacheImpl(handlerMock, gson);
+
         var expected = new FoodSearchResult(foods);
         var actual = cache.searchByName(description);
+
         assertEquals(expected, actual);
     }
 
@@ -53,7 +54,7 @@ public class FoodDataCacheImplTest {
 
         var serialized = gson.toJson(details);
         when(handlerMock.readFoodDetailsFileContent()).thenReturn(serialized);
-
+        var cache = new FoodDataCacheImpl(handlerMock, gson);
 
         var actual = cache.getFoodDetailsByFoodId(foodId);
         assertEquals(foodDetails, actual);
@@ -70,6 +71,7 @@ public class FoodDataCacheImplTest {
 
         var serialized = gson.toJson(details);
         when(handlerMock.readFoodDetailsFileContent()).thenReturn(serialized);
+        var cache = new FoodDataCacheImpl(handlerMock, gson);
 
         var actual = cache.getFoodDetailsByGtinUpc(gtin);
         assertEquals(foodDetails, actual);
@@ -82,6 +84,7 @@ public class FoodDataCacheImplTest {
 
         var serialized = gson.toJson(searches);
         when(handlerMock.readPastSearchesFile()).thenReturn(serialized);
+        var cache = new FoodDataCacheImpl(handlerMock, gson);
 
         var actual = cache.hasBeenSearched(pastSearch);
         assertTrue(actual);
@@ -94,6 +97,7 @@ public class FoodDataCacheImplTest {
 
         var serialized = gson.toJson(searches);
         when(handlerMock.readPastSearchesFile()).thenReturn(serialized);
+        var cache = new FoodDataCacheImpl(handlerMock, gson);
 
         var actual = cache.hasBeenSearched(pastSearch);
         assertFalse(actual);
